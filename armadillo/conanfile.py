@@ -64,6 +64,7 @@ class ArmadilloConan(ConanFile):
             # Since wrapper is not used, then no library will be created. In
             # that case, shared option is not useful and we delete it
             del self.options.shared
+            del self.settings
 
         cmake.configure(source_folder="sources")
         cmake.build()

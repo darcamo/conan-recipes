@@ -6,6 +6,8 @@
 #include <SFML/Window/Event.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 
+#include <iostream>
+
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(640, 480), "ImGui + SFML = <3");
@@ -16,7 +18,7 @@ int main()
     shape.setFillColor(sf::Color::Green);
 
     sf::Clock deltaClock;
-    while (window.isOpen()) {
+    // while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
             ImGui::SFML::ProcessEvent(event);
@@ -36,7 +38,9 @@ int main()
         window.draw(shape);
         ImGui::SFML::Render(window);
         window.display();
-    }
+    // }
 
     ImGui::SFML::Shutdown();
+
+    std::cout << "Test imgui=sfml finished" << std::endl;
 }
