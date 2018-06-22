@@ -20,12 +20,13 @@ class ArmadilloConan(ConanFile):
     source_tar_file = "{0}.tar.xz".format(source_folder_name)
 
     def system_requirements(self):
-        self.global_system_requirements=True
         blas_package_name = None
         lapack_package_name = None
         hdf5_package_name = None
         if tools.os_info.linux_distro == "ubuntu":
-            pass
+            blas_package_name = "libblas-dev"
+            lapack_package_name = "liblapack-dev"
+            hdf5_package_name = "libhdf5-dev"
         elif tools.os_info.linux_distro == "arch":
             blas_package_name = "blas"
             lapack_package_name = "lapack"

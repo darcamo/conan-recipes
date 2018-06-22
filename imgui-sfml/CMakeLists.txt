@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(imgui-sfml)
 
+# PLACEHOLDER
+
 find_package(SFML REQUIRED COMPONENTS system window graphics network audio)
 
 add_library(imgui-sfml

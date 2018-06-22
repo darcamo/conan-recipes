@@ -5,6 +5,7 @@ import glob
 
 
 class ImguisfmlConan(ConanFile):
+    build_policy = "missing"
     name = "imgui-sfml"
     version = "1.53"  # Version of the imgui-library
     version_imgui_sfml = ".1.0"  # Version of imgui-sfml corresponding to the
@@ -26,7 +27,7 @@ class ImguisfmlConan(ConanFile):
     def system_requirements(self):
         sfml_package_name = None
         if tools.os_info.linux_distro == "ubuntu":
-            pass
+            sfml_package_name = "libsfml-dev"
         elif tools.os_info.linux_distro == "arch":
             sfml_package_name = "sfml"
 
@@ -63,6 +64,21 @@ class ImguisfmlConan(ConanFile):
         # Now we can remove the imgui and imgui-sfml folders
         shutil.rmtree("imgui/")
         shutil.rmtree("imgui-sfml/")
+
+        # In case of ubuntu find_package will not find SFML unless we indicate
+        # to cmake where to find the FindSFML.cmake file
+        if (tools.os_info.linux_distro == 'ubuntu'):
+            tools.replace_in_file(
+                "CMakeLists.txt",
+                "# PLACEHOLDER",
+                ('# Add a folder to CMAKE_MODULE_PATH to indicate where the '
+                 'SFML module can be found\nlist(APPEND CMAKE_MODULE_PATH '
+                 '"/usr/share/SFML/cmake/Modules")'))
+        else:
+            tools.replace_in_file(
+                "CMakeLists.txt",
+                "# PLACEHOLDER",
+                "")
 
         # Copy the CMakeLists.txt file to the sources folder
         shutil.move("CMakeLists.txt", "sources/")
