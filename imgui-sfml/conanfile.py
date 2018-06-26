@@ -5,7 +5,6 @@ import glob
 
 
 class ImguisfmlConan(ConanFile):
-    build_policy = "missing"
     name = "imgui-sfml"
     version = "1.53"  # Version of the imgui-library
     version_imgui_sfml = ".1.0"  # Version of imgui-sfml corresponding to the
@@ -88,14 +87,7 @@ class ImguisfmlConan(ConanFile):
         cmake = CMake(self)
         cmake.configure(source_folder="sources", build_folder="build")
         cmake.build()
-
-    def package(self):
-        self.copy("*.h", dst="include", src="sources")
-        # self.copy("*hello.lib", dst="lib", keep_path=False)
-        # self.copy("*.dll", dst="bin", keep_path=False)
-        self.copy("*.so", dst="lib", src="build", keep_path=False)
-        # self.copy("*.dylib", dst="lib", keep_path=False)
-        self.copy("*.a", dst="lib", src="build", keep_path=False)
+        cmake.install()
 
     def package_info(self):
         # self.cpp_info.libs = ["imgui-sfml"]

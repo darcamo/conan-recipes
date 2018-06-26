@@ -22,3 +22,16 @@ add_library(imgui-sfml
 target_include_directories(imgui-sfml SYSTEM PUBLIC .)
 target_link_libraries(imgui-sfml PUBLIC sfml-graphics sfml-window sfml-system sfml-network sfml-audio)
 target_link_libraries(imgui-sfml PUBLIC "-lGL")
+
+
+install(TARGETS imgui-sfml DESTINATION lib)
+install(FILES
+  imconfig.h
+  imgui.h
+  imgui_internal.h
+  imgui-SFML.h
+  stb_rect_pack.h
+  stb_textedit.h
+  stb_truetype.h
+  DESTINATION include
+  )
