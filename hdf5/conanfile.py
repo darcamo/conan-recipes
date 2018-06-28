@@ -4,7 +4,7 @@ import shutil
 
 
 class Hdf5Conan(ConanFile):
-    name = "hdf5"
+    name = "HDF5"
     version = "1.10.1"
     license = "BSD-style Open Source or Comercial"
     url = "https://github.com/darcamo/conan-recipes"
@@ -50,3 +50,6 @@ conan_basic_setup()''')
 
     def package_info(self):
         self.cpp_info.libs = ["hdf5"]
+
+        if not self.options.shared:
+            self.cpp_info.libs.append("dl")

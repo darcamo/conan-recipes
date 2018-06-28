@@ -27,7 +27,7 @@ class ArmadilloConan(ConanFile):
 
         if not self.options.use_system_libs:
             self.requires("lapack/3.7.1@darcamo/stable")
-            self.requires("hdf5/1.10.1@darcamo/stable")
+            self.requires("HDF5/1.10.1@darcamo/stable")
 
     def build_requirements(self):
         if self.settings.os == "Windows":
