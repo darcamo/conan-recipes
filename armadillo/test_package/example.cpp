@@ -3,7 +3,10 @@
 #include <iostream>
 
 int main() {
-    arma::mat m{{1,2,3}, {4,5,6}, {7,8,9}};
+    arma::mat m;
+    m << 1 << 2 << 3 << arma::endr
+      << 4 << 5 << 6 << arma::endr
+      << 7 << 8 << 9;
     std::cout << "Hello Armadillo" << std::endl;
     m.print("m");
 
