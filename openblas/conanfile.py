@@ -12,12 +12,13 @@ class OpenblasConan(ConanFile):
     description = "OpenBLAS is an optimized BLAS library based on GotoBLAS2 1.13 BSD version"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
-    default_options = "shared=False"
+    default_options = "shared=True"
     generators = "cmake"
 
     def build_requirements(self):
         if self.settings.os == "Windows":
             self.build_requires("cmake_installer/3.11.3@conan/stable")
+            self.build_requires("strawberryperl/5.26.0@conan/stable")
 
     def system_requirements(self):
         if tools.os_info.is_linux:
@@ -54,19 +55,17 @@ endif(CCACHE_FOUND)''')
         cmake.build()
         cmake.install()
 
-    ## Package method is not necessary because we called cmake.install in the build method
-    # def package(self):
-    #     self.copy("*.h", dst="include", src="openblas")
-    #     self.copy("*.h", dst="include", src="build")
-    #     self.copy("*openblas.lib", dst="lib", keep_path=False)
-    #     self.copy("*.dll", dst="bin", keep_path=False)
-    #     self.copy("*.so*", dst="lib", keep_path=False)
-    #     self.copy("*.dylib", dst="lib", keep_path=False)
-    #     self.copy("*.a", dst="lib", keep_path=False)
-    #     # self.copy("*.h", dst="include", src=".")
-
     def package_info(self):
-        # self.cpp_info.includedirs = ['include']
-        # self.cpp_info.lib_paths
-        self.cpp_info.libdirs = ["lib", "lib64"]
-        self.cpp_info.libs = ["openblas", "pthread"]
+        self.cpp_info.libdirs = ["lib64"]
+
+        # The openblas library has different names depending if it is a release
+        # of a debug build
+        if self.settings.build_type == "Debug" and self.options.shared:
+            # The name is different only for Debug build with shared libraries
+            self.cpp_info.libs = ["openblas_d"]
+        else:
+            self.cpp_info.libs = ["openblas"]
+
+        # In case of static library we need to also link with pthread
+        if not self.options.shared:
+            self.cpp_info.libs.append("pthread")
