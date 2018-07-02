@@ -49,7 +49,12 @@ conan_basic_setup()''')
         cmake.install()
 
     def package_info(self):
-        self.cpp_info.libs = ["hdf5"]
+            # The HDF5 library has different names depending if it is a release
+            # of a debug build
+        if self.settings.build_type == "Release":
+            self.cpp_info.libs = ["hdf5"]
+        else:
+            self.cpp_info.libs = ["hdf5_debug"]
 
         if not self.options.shared:
             self.cpp_info.libs.append("dl")
