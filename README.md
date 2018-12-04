@@ -6,3 +6,7 @@ Conan recipes created by me.
 
 Each folder in this repository is a different recipe.
 You can create a package and install it in your local conan cache.
+
+# Note
+
+This repository was archived in favor of having one repository for each recipe. The repository names for the different recipes follow the convention `conan-<library_name>`.
